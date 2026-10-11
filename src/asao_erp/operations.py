@@ -350,7 +350,7 @@ class identity:
     tag_update = Operation("identity.tag.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class inventory:
-    """inventory: 82 operations."""
+    """inventory: 86 operations."""
 
     count_apply = Operation("inventory.count.apply", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     count_clear = Operation("inventory.count.clear", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
@@ -384,9 +384,12 @@ class inventory:
     putaway_rule_list = Operation("inventory.putaway_rule.list", "READ", "READ", "CURRENT_VERIFIED")
     putaway_rule_update = Operation("inventory.putaway_rule.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     quant_list = Operation("inventory.quant.list", "READ", "READ", "CURRENT_VERIFIED")
+    reorder_rule_automate = Operation("inventory.reorder_rule.automate", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
+    reorder_rule_clear_manual_quantity = Operation("inventory.reorder_rule.clear_manual_quantity", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     reorder_rule_create = Operation("inventory.reorder_rule.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     reorder_rule_describe = Operation("inventory.reorder_rule.describe", "READ", "READ", "CURRENT_VERIFIED")
     reorder_rule_list = Operation("inventory.reorder_rule.list", "READ", "READ", "CURRENT_VERIFIED")
+    reorder_rule_replenish = Operation("inventory.reorder_rule.replenish", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     reorder_rule_update = Operation("inventory.reorder_rule.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     route_create = Operation("inventory.route.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     route_describe = Operation("inventory.route.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -430,13 +433,14 @@ class inventory:
     transfer_return_all = Operation("inventory.transfer.return_all", "ACTION", "WIZARD", "CURRENT_VERIFIED")
     transfer_return_for_exchange = Operation("inventory.transfer.return_for_exchange", "ACTION", "WIZARD", "UNVERIFIED")
     transfer_schedule_activity = Operation("inventory.transfer.schedule_activity", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
+    transfer_unreserve = Operation("inventory.transfer.unreserve", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     transfer_update = Operation("inventory.transfer.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     transfer_validate = Operation("inventory.transfer.validate", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     transfer_validate_with_backorder = Operation("inventory.transfer.validate_with_backorder", "ACTION", "WIZARD", "CURRENT_VERIFIED")
     transfer_validate_without_backorder = Operation("inventory.transfer.validate_without_backorder", "ACTION", "WIZARD", "CURRENT_VERIFIED")
 
 class manufacturing:
-    """manufacturing: 76 operations."""
+    """manufacturing: 79 operations."""
 
     bom_byproduct_create = Operation("manufacturing.bom_byproduct.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     bom_byproduct_describe = Operation("manufacturing.bom_byproduct.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -512,7 +516,10 @@ class manufacturing:
     workcenter_update = Operation("manufacturing.workcenter.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     workorder_create = Operation("manufacturing.workorder.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     workorder_describe = Operation("manufacturing.workorder.describe", "READ", "READ", "CURRENT_VERIFIED")
+    workorder_finish = Operation("manufacturing.workorder.finish", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     workorder_list = Operation("manufacturing.workorder.list", "READ", "READ", "CURRENT_VERIFIED")
+    workorder_pause = Operation("manufacturing.workorder.pause", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
+    workorder_start = Operation("manufacturing.workorder.start", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     workorder_update = Operation("manufacturing.workorder.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class people:
