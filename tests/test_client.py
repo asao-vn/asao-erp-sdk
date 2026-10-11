@@ -1,0 +1,81 @@
+import json
+import os
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+
+from asao_erp import Client, ErpError, flatten, ops  # noqa: E402
+
+FAKE = [sys.executable, str(Path(__file__).resolve().parent / "fake_cli.py")]
+
+
+class ClientTest(unittest.TestCase):
+    def setUp(self):
+        self.log = tempfile.NamedTemporaryFile(delete=False)
+        self.log.close()
+        os.environ["FAKE_CLI_LOG"] = self.log.name
+        self.erp = Client(profile="asao-hq", binary=FAKE, allow_unverified=True)
+
+    def tearDown(self):
+        os.unlink(self.log.name)
+
+    def calls(self):
+        return [json.loads(line) for line in Path(self.log.name).read_text().splitlines()]
+
+    def test_a_read_names_its_operation_profile_and_page(self):
+        rows = self.erp.read(ops.sales.quotation_list, [["state", "=", "sale"]], limit=5, offset=10, order="id")
+        self.assertEqual([r["id"] for r in rows], [11, 12, 13, 14, 15])
+        self.assertEqual(self.calls()[0], ["execute", "--operation", "sales.quotation.list", "--limit", "5", "--offset", "10",
+                                           "--order", "id", "--filter", '[["state", "=", "sale"]]', "--profile", "asao-hq",
+                                           "--allow-unverified", "--output", "json"])
+
+    def test_iterate_pages_until_a_short_page(self):
+        rows = list(self.erp.iterate("sales.quotation.list", page=200))
+        self.assertEqual(len(rows), 450)
+        self.assertEqual([c[c.index("--offset") + 1] if "--offset" in c else "0" for c in self.calls()], ["0", "200", "400"])
+
+    def test_groups_come_from_the_provider(self):
+        groups = self.erp.group("sales.quotation.list", by=["date_order:month"], aggregate=["amount_total:sum"])
+        self.assertEqual(groups[0]["count"], 3)
+        self.assertIn("--group-by", self.calls()[0])
+        self.assertEqual(flatten(groups[0])["date_order:month"], "2026-10-01")
+
+    def test_a_print_returns_or_saves_the_pdf(self):
+        self.assertEqual(self.erp.print("finance.invoice.print", 1), b"%PDF-1.4 x")
+        with tempfile.TemporaryDirectory() as folder:
+            path = self.erp.print("finance.invoice.print", 1, to=Path(folder) / "invoice.pdf")
+            self.assertEqual(path.read_bytes(), b"%PDF-1.4 x")
+
+    def test_a_client_reads_unless_made_to_write(self):
+        with self.assertRaises(ErpError) as refused:
+            self.erp.execute("identity.contact.create", values={"name": "x"})
+        self.assertEqual(refused.exception.code, "WRITES_NOT_ALLOWED")
+        self.assertFalse(any("execute" in call for call in self.calls()))
+        writer = Client(profile="asao-hq", binary=FAKE, allow_writes=True)
+        self.assertEqual(writer.execute("identity.contact.create", values={"name": "x"}), {"id": 9, "created": True})
+
+    def test_a_refusal_is_an_error_with_the_clis_fields(self):
+        with self.assertRaises(ErpError) as refused:
+            self.erp.read("sales.quotation.list", [["name", "=", "boom"]])
+        error = refused.exception
+        self.assertEqual((error.code, error.exit_code, error.remediation), ("AERP_VALIDATION_FAILED", 2, "Do not say boom."))
+
+    def test_a_governed_client_acts_as_the_asao_login(self):
+        governed = Client(organization="org-1", connection="conn-1", binary=FAKE)
+        governed.read("sales.quotation.list", limit=1)
+        call = self.calls()[0]
+        self.assertEqual(call[:2], ["aerp", "execute"])
+        self.assertIn("--organization", call)
+        self.assertNotIn("--profile", call)
+        self.assertNotIn("--allow-unverified", call)
+
+    def test_flatten_turns_relations_into_names(self):
+        self.assertEqual(flatten({"partner_id": [7, "Acme"], "stage": {"id": 2, "display_name": "Won"}}),
+                         {"partner_id": "Acme", "stage": "Won"})
+
+
+if __name__ == "__main__":
+    unittest.main()

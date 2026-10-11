@@ -1,0 +1,5 @@
+# Data a notebook writes stays on the analyst's machine: exports, printed documents.
+*.csv
+*.xlsx
+*.pdf
+.ipynb_checkpoints/
