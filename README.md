@@ -29,7 +29,8 @@ the command line too, either of:
   stays in the environment or the OS keyring, never in your notebook.
 - The governed [`asao`](https://github.com/asao-vn/asao-cli) CLI, for an ASAO organization:
   `Client(organization="...", connection="...")`. Calls then act with the caller's ASAO login, within
-  the read permissions their role grants.
+  the permissions their role grants: reads, and, with a domain's write key, the verified
+  low- and medium-risk writes. High-risk operations (posting, payments, deletes) stay with `odoo-cli`.
 
 Name a binary that is not on `PATH` with `binary=` or `ASAO_ERP_CLI`.
 

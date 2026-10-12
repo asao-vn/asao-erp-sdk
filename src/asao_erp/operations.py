@@ -277,7 +277,7 @@ class event:
     ticket_update = Operation("event.ticket.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class finance:
-    """finance: 183 operations."""
+    """finance: 182 operations."""
 
     account_chart_create = Operation("finance.account.chart.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     account_chart_describe = Operation("finance.account.chart.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -363,7 +363,7 @@ class finance:
     invoice_list = Operation("finance.invoice.list", "READ", "READ", "CURRENT_VERIFIED")
     invoice_log_note = Operation("finance.invoice.log_note", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     invoice_payment_capture = Operation("finance.invoice.payment_capture", "ACTION", "METHOD_CALL", "UNVERIFIED")
-    invoice_payment_void = Operation("finance.invoice.payment_void", "ACTION", "METHOD_CALL", "UNVERIFIED")
+    invoice_payment_void = Operation("finance.invoice.payment_void", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     invoice_post = Operation("finance.invoice.post", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     invoice_print = Operation("finance.invoice.print", "READ", "REPORT", "CURRENT_VERIFIED")
     invoice_request_cancel = Operation("finance.invoice.request_cancel", "ACTION", "WIZARD", "UNVERIFIED")
@@ -433,13 +433,12 @@ class finance:
     payment_token_describe = Operation("finance.payment_token.describe", "READ", "READ", "UNVERIFIED")
     payment_token_list = Operation("finance.payment_token.list", "READ", "READ", "UNVERIFIED")
     payment_token_update = Operation("finance.payment_token.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
-    payment_transaction_capture = Operation("finance.payment_transaction.capture", "ACTION", "METHOD_CALL", "UNVERIFIED")
+    payment_transaction_capture = Operation("finance.payment_transaction.capture", "ACTION", "WIZARD", "CURRENT_VERIFIED")
     payment_transaction_create = Operation("finance.payment_transaction.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_transaction_describe = Operation("finance.payment_transaction.describe", "READ", "READ", "CURRENT_VERIFIED")
     payment_transaction_list = Operation("finance.payment_transaction.list", "READ", "READ", "CURRENT_VERIFIED")
-    payment_transaction_post_process = Operation("finance.payment_transaction.post_process", "ACTION", "METHOD_CALL", "UNVERIFIED")
     payment_transaction_update = Operation("finance.payment_transaction.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
-    payment_transaction_void = Operation("finance.payment_transaction.void", "ACTION", "METHOD_CALL", "UNVERIFIED")
+    payment_transaction_void = Operation("finance.payment_transaction.void", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     payment_unmark_as_sent = Operation("finance.payment.unmark_as_sent", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     payment_update = Operation("finance.payment.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_validate = Operation("finance.payment.validate", "ACTION", "METHOD_CALL", "UNVERIFIED")
@@ -1204,7 +1203,7 @@ class sales:
     order_line_update = Operation("sales.order.line.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     order_log_note = Operation("sales.order.log_note", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     order_payment_capture = Operation("sales.order.payment_capture", "ACTION", "METHOD_CALL", "UNVERIFIED")
-    order_payment_void = Operation("sales.order.payment_void", "ACTION", "METHOD_CALL", "UNVERIFIED")
+    order_payment_void = Operation("sales.order.payment_void", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     order_print = Operation("sales.order.print", "READ", "REPORT", "CURRENT_VERIFIED")
     order_schedule_activity = Operation("sales.order.schedule_activity", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     order_unlock = Operation("sales.order.unlock", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
