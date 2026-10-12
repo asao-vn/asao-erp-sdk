@@ -1,6 +1,6 @@
 # Source
 
-Exported from the ASAO monorepo commit `cfa49fa87b81c10eae96f973176f2462764670ac` by `scripts/release/public/export-public-repo.py asao-erp-sdk`.
+Exported from the ASAO monorepo commit `6435d428f024765d0a8defd8f29bc8d8ba8de7a0` by `scripts/release/public/export-public-repo.py asao-erp-sdk`.
 
 - Root: monorepo `packages/sdk-python`
 
