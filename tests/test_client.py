@@ -72,6 +72,23 @@ class ClientTest(unittest.TestCase):
         self.assertNotIn("--profile", call)
         self.assertNotIn("--allow-unverified", call)
 
+    def test_a_high_risk_operation_runs_with_a_colleagues_approval(self):
+        governed = Client(organization="org-1", binary=FAKE, allow_writes=True)
+        approval = governed.request_approval("finance.payment.create", "supplier payment", id=42)
+        self.assertEqual(approval["id"], "appr-1")
+        self.assertEqual(self.calls()[0][:3], ["aerp", "approval", "request"])
+        self.assertIn("--reason", self.calls()[0])
+        self.assertEqual(governed.execute("finance.payment.create", approval="appr-1"), {"id": 42, "state": "posted"})
+        run = self.calls()[-1]
+        self.assertIn("--approval", run)
+        self.assertNotIn("--provider-target-id", run)
+        with self.assertRaises(ErpError) as refused:
+            governed.execute("finance.payment.create", approval="appr-1", id=42)
+        self.assertEqual(refused.exception.code, "APPROVAL_INPUT_RESUPPLIED")
+        with self.assertRaises(ErpError) as refused:
+            Client(profile="p", binary=FAKE, allow_writes=True).request_approval("finance.payment.create", "x")
+        self.assertEqual(refused.exception.code, "APPROVAL_NOT_GOVERNED")
+
     def test_flatten_turns_relations_into_names(self):
         self.assertEqual(flatten({"partner_id": [7, "Acme"], "stage": {"id": 2, "display_name": "Won"}}),
                          {"partner_id": "Acme", "stage": "Won"})

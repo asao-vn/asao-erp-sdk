@@ -25,6 +25,10 @@ with open(os.environ["FAKE_CLI_LOG"], "a", encoding="utf-8") as log:
     log.write(json.dumps(sys.argv[1:]) + "\n")
 
 args = sys.argv[1:]
+if args[:3] == ["aerp", "approval", "request"]:
+    reply({"approval": {"id": "appr-1", "status": "PENDING", "operation": value("--operation")}})
+if "--approval" in args:
+    reply({"operation": value("--operation"), "data": {"id": 42, "state": "posted"}})
 if "catalog" in args and "list" in args:
     reply({"items": [{"id": "sales.quotation.list", "kind": "READ"}], "count": 1})
 if "catalog" in args and "describe" in args:

@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
 license = {text = "Apache-2.0"}
-authors = [{name = "The ASAO Authors"}]
+authors = [{name = "Nguyễn Hữu Hoàng", email = "nguyenhuuhoang711@gmail.com"}]
 keywords = ["odoo", "erp", "cli", "sdk", "pandas", "statistics"]
 classifiers = [
     "Development Status :: 4 - Beta",

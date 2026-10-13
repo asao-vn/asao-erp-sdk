@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Governed `asao` CLI: a high-risk operation (posting, payments, rates) runs only after a colleague
+  approves the exact request. `request_approval(operation, reason, id=..., values=...)` asks;
+  `execute(operation, approval=...)` runs the approved request once.
+
 ## 0.1.0 (2026-10-11)
 
 The first public release.

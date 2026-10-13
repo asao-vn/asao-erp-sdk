@@ -147,17 +147,49 @@ class Client:
 
     # ---- changes ----------------------------------------------------------------------------
 
-    def execute(self, operation: str, *, id: int | None = None, values: dict | None = None) -> Any:
-        """Run any operation. One that changes data runs only on a client made with allow_writes=True."""
+    def execute(self, operation: str, *, id: int | None = None, values: dict | None = None,
+                approval: str | None = None) -> Any:
+        """Run any operation. One that changes data runs only on a client made with allow_writes=True.
+
+        On the governed asao CLI, a high-risk operation (posting, payments, rates) runs only with
+        ``approval=``: the id of a request a colleague approved (see ``request_approval``). The
+        approved request then runs exactly as approved, so give neither ``id`` nor ``values``.
+        """
         if not self.allow_writes and self._kind(operation) not in READ_KINDS:
             raise ErpError("WRITES_NOT_ALLOWED", f"{operation} changes data, and this client reads only",
                            remediation="Make the client with allow_writes=True to run it.")
         args: list[str] = []
+        if approval is not None:
+            if not self.governed:
+                raise ErpError("APPROVAL_NOT_GOVERNED", "approvals exist only on the governed asao CLI (organization=)")
+            if id is not None or values:
+                raise ErpError("APPROVAL_INPUT_RESUPPLIED", "an approved request runs exactly as it was approved",
+                               remediation="Pass only the operation and approval=.")
+            args += ["--approval", approval]
         if id is not None:
             args += ["--provider-target-id", str(id)]
         if values:
             args += ["--values", json.dumps(values)]
         return (self._execute(operation, args) or {}).get("data")
+
+    def request_approval(self, operation: str, reason: str, *, id: int | None = None,
+                         values: dict | None = None) -> dict:
+        """Ask a colleague to approve one high-risk operation, exactly as given (governed asao CLI only).
+
+        Returns the approval request; its ``id`` goes to ``execute(..., approval=)`` once a colleague
+        holding aerp.approval.decide has approved it. Asking changes nothing in the ERP.
+        """
+        if not self.governed:
+            raise ErpError("APPROVAL_NOT_GOVERNED", "approvals exist only on the governed asao CLI (organization=)")
+        command = self._command + ["aerp", "approval", "request", "--operation", str(operation),
+                                   "--organization", self.organization, "--reason", reason]
+        if self.connection:
+            command += ["--connection", self.connection]
+        if id is not None:
+            command += ["--provider-target-id", str(id)]
+        if values:
+            command += ["--values", json.dumps(values)]
+        return (self._run(command) or {}).get("approval", {})
 
     # ---- the command line -------------------------------------------------------------------
 
