@@ -1,12 +1,6 @@
 # Changelog
 
-## Unreleased
-
-- Governed `asao` CLI: a high-risk operation (posting, payments, rates) runs only after a colleague
-  approves the exact request. `request_approval(operation, reason, id=..., values=...)` asks;
-  `execute(operation, approval=...)` runs the approved request once.
-
-## 0.1.0 (2026-10-11)
+## 0.1.0 (2026-10-13)
 
 The first public release.
 
@@ -16,3 +10,6 @@ The first public release.
   `execute`, and `to_frame` for pandas.
 - `ops` lists every catalog operation by domain, for completion in the editor.
 - Writes run only with `allow_writes=True`; unverified results only with `allow_unverified=True`.
+- Governed `asao` CLI: a high-risk operation (posting, payments, rates) runs only after a colleague
+  approves the exact request. `request_approval(operation, reason, id=..., values=...)` asks;
+  `execute(operation, approval=...)` runs the approved request once.

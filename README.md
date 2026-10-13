@@ -52,7 +52,10 @@ failure raises `ErpError` with the command line's code, message and remediation.
 
 ## What is verified, and what is not
 
-The catalog's operations are verified on the stock Odoo Community 19.0 image. Before each call, the
+The catalog's operations are verified on the stock Odoo Community image: 1267 on 19.0, and 1170 on
+20.0, a candidate series that runs only with `allow_unverified=True` until it is supported. A public
+[conformance run](https://github.com/asao-vn/asao-odoo-tools/blob/main/docs/conformance.md) checks them
+again every week. Before each call, the
 command line checks the Odoo it reaches:
 - Is it Odoo, and which series?
 - Are the needed modules installed?
