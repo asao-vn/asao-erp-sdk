@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 (2026-10-15)
+
+- `Client.review(start, end, as_of=..., checks=..., params=...)` reviews the books of a period through
+  `odoo-cli review run` (odoo-cli 0.10.0 or later) and returns its report: findings with check,
+  severity, formula, thresholds and the records behind them; which checks ran; the period's figures.
+  It reads only, on a profile; the governed `asao` CLI has no review yet (`REVIEW_NOT_GOVERNED_YET`).
+- `ops` follows the catalog: 1353 operations. Five writes that Odoo itself refuses are gone:
+  `finance.payment_method.create`, `livechat.channel_member_history.create` and `.update`,
+  `manufacturing.workcenter_productivity_loss_type.create` and `.update`.
+- Packaging: the license is the SPDX expression `Apache-2.0` (setuptools 77 or later builds it), and
+  the source distribution carries the fake CLI, so its tests run.
+
 ## 0.1.0 (2026-10-13)
 
 The first public release.

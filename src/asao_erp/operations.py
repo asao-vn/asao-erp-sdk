@@ -64,7 +64,7 @@ class catalog:
     pricelist_item_create = Operation("catalog.pricelist_item.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     pricelist_item_describe = Operation("catalog.pricelist_item.describe", "READ", "READ", "CURRENT_VERIFIED")
     pricelist_item_list = Operation("catalog.pricelist_item.list", "READ", "READ", "CURRENT_VERIFIED")
-    pricelist_item_update = Operation("catalog.pricelist_item.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    pricelist_item_update = Operation("catalog.pricelist_item.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     pricelist_list = Operation("catalog.pricelist.list", "READ", "READ", "CURRENT_VERIFIED")
     pricelist_update = Operation("catalog.pricelist.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     product_bom_cost = Operation("catalog.product.bom_cost", "ACTION", "METHOD_CALL", "UNVERIFIED")
@@ -154,7 +154,7 @@ class crm:
     team_member_create = Operation("crm.team_member.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     team_member_describe = Operation("crm.team_member.describe", "READ", "READ", "CURRENT_VERIFIED")
     team_member_list = Operation("crm.team_member.list", "READ", "READ", "CURRENT_VERIFIED")
-    team_member_update = Operation("crm.team_member.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    team_member_update = Operation("crm.team_member.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     team_update = Operation("crm.team.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class elearning:
@@ -277,9 +277,9 @@ class event:
     ticket_update = Operation("event.ticket.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class finance:
-    """finance: 182 operations."""
+    """finance: 181 operations."""
 
-    account_chart_create = Operation("finance.account.chart.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    account_chart_create = Operation("finance.account.chart.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     account_chart_describe = Operation("finance.account.chart.describe", "READ", "READ", "CURRENT_VERIFIED")
     account_chart_list = Operation("finance.account.chart.list", "READ", "READ", "CURRENT_VERIFIED")
     account_chart_update = Operation("finance.account.chart.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
@@ -397,12 +397,11 @@ class finance:
     online_payment_method_list = Operation("finance.online_payment_method.list", "READ", "READ", "CURRENT_VERIFIED")
     online_payment_method_update = Operation("finance.online_payment_method.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_cancel = Operation("finance.payment.cancel", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
-    payment_create = Operation("finance.payment.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    payment_create = Operation("finance.payment.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_describe = Operation("finance.payment.describe", "READ", "READ", "CURRENT_VERIFIED")
     payment_draft = Operation("finance.payment.draft", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     payment_list = Operation("finance.payment.list", "READ", "READ", "CURRENT_VERIFIED")
     payment_mark_as_sent = Operation("finance.payment.mark_as_sent", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
-    payment_method_create = Operation("finance.payment_method.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     payment_method_describe = Operation("finance.payment_method.describe", "READ", "READ", "CURRENT_VERIFIED")
     payment_method_line_create = Operation("finance.payment_method_line.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_method_line_describe = Operation("finance.payment_method_line.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -426,13 +425,13 @@ class finance:
     payment_term_line_create = Operation("finance.payment_term_line.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_term_line_describe = Operation("finance.payment_term_line.describe", "READ", "READ", "CURRENT_VERIFIED")
     payment_term_line_list = Operation("finance.payment_term_line.list", "READ", "READ", "CURRENT_VERIFIED")
-    payment_term_line_update = Operation("finance.payment_term_line.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    payment_term_line_update = Operation("finance.payment_term_line.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_term_list = Operation("finance.payment_term.list", "READ", "READ", "CURRENT_VERIFIED")
     payment_term_update = Operation("finance.payment_term.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
-    payment_token_create = Operation("finance.payment_token.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    payment_token_create = Operation("finance.payment_token.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_token_describe = Operation("finance.payment_token.describe", "READ", "READ", "UNVERIFIED")
     payment_token_list = Operation("finance.payment_token.list", "READ", "READ", "UNVERIFIED")
-    payment_token_update = Operation("finance.payment_token.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    payment_token_update = Operation("finance.payment_token.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_transaction_capture = Operation("finance.payment_transaction.capture", "ACTION", "WIZARD", "CURRENT_VERIFIED")
     payment_transaction_create = Operation("finance.payment_transaction.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_transaction_describe = Operation("finance.payment_transaction.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -447,12 +446,12 @@ class finance:
     reconcile_model_line_create = Operation("finance.reconcile_model_line.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     reconcile_model_line_describe = Operation("finance.reconcile_model_line.describe", "READ", "READ", "CURRENT_VERIFIED")
     reconcile_model_line_list = Operation("finance.reconcile_model_line.list", "READ", "READ", "CURRENT_VERIFIED")
-    reconcile_model_line_update = Operation("finance.reconcile_model_line.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    reconcile_model_line_update = Operation("finance.reconcile_model_line.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     reconcile_model_list = Operation("finance.reconcile_model.list", "READ", "READ", "CURRENT_VERIFIED")
     reconcile_model_set_auto_reconcile = Operation("finance.reconcile_model.set_auto_reconcile", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     reconcile_model_set_manual = Operation("finance.reconcile_model.set_manual", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     reconcile_model_update = Operation("finance.reconcile_model.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
-    tax_create = Operation("finance.tax.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    tax_create = Operation("finance.tax.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     tax_describe = Operation("finance.tax.describe", "READ", "READ", "CURRENT_VERIFIED")
     tax_group_create = Operation("finance.tax_group.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     tax_group_describe = Operation("finance.tax_group.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -670,16 +669,14 @@ class inventory:
     valuation_adjustment_line_update = Operation("inventory.valuation_adjustment_line.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class livechat:
-    """livechat: 38 operations."""
+    """livechat: 36 operations."""
 
     channel_create = Operation("livechat.channel.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     channel_describe = Operation("livechat.channel.describe", "READ", "READ", "CURRENT_VERIFIED")
     channel_join = Operation("livechat.channel.join", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     channel_list = Operation("livechat.channel.list", "READ", "READ", "CURRENT_VERIFIED")
-    channel_member_history_create = Operation("livechat.channel_member_history.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     channel_member_history_describe = Operation("livechat.channel_member_history.describe", "READ", "READ", "CURRENT_VERIFIED")
     channel_member_history_list = Operation("livechat.channel_member_history.list", "READ", "READ", "CURRENT_VERIFIED")
-    channel_member_history_update = Operation("livechat.channel_member_history.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     channel_quit = Operation("livechat.channel.quit", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     channel_rule_create = Operation("livechat.channel_rule.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     channel_rule_describe = Operation("livechat.channel_rule.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -780,7 +777,7 @@ class maintenance:
     team_update = Operation("maintenance.team.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class manufacturing:
-    """manufacturing: 79 operations."""
+    """manufacturing: 77 operations."""
 
     bom_byproduct_create = Operation("manufacturing.bom_byproduct.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     bom_byproduct_describe = Operation("manufacturing.bom_byproduct.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -843,10 +840,8 @@ class manufacturing:
     workcenter_productivity_loss_create = Operation("manufacturing.workcenter_productivity_loss.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     workcenter_productivity_loss_describe = Operation("manufacturing.workcenter_productivity_loss.describe", "READ", "READ", "CURRENT_VERIFIED")
     workcenter_productivity_loss_list = Operation("manufacturing.workcenter_productivity_loss.list", "READ", "READ", "CURRENT_VERIFIED")
-    workcenter_productivity_loss_type_create = Operation("manufacturing.workcenter_productivity_loss_type.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     workcenter_productivity_loss_type_describe = Operation("manufacturing.workcenter_productivity_loss_type.describe", "READ", "READ", "CURRENT_VERIFIED")
     workcenter_productivity_loss_type_list = Operation("manufacturing.workcenter_productivity_loss_type.list", "READ", "READ", "CURRENT_VERIFIED")
-    workcenter_productivity_loss_type_update = Operation("manufacturing.workcenter_productivity_loss_type.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
     workcenter_productivity_loss_update = Operation("manufacturing.workcenter_productivity_loss.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     workcenter_productivity_update = Operation("manufacturing.workcenter_productivity.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     workcenter_tag_create = Operation("manufacturing.workcenter_tag.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
@@ -979,7 +974,7 @@ class people:
     job_skill_create = Operation("people.job_skill.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     job_skill_describe = Operation("people.job_skill.describe", "READ", "READ", "CURRENT_VERIFIED")
     job_skill_list = Operation("people.job_skill.list", "READ", "READ", "CURRENT_VERIFIED")
-    job_skill_update = Operation("people.job_skill.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    job_skill_update = Operation("people.job_skill.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     job_update = Operation("people.job.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payroll_structure_type_create = Operation("people.payroll_structure_type.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payroll_structure_type_describe = Operation("people.payroll_structure_type.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -1033,7 +1028,7 @@ class pos:
     order_line_update = Operation("pos.order_line.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     order_list = Operation("pos.order.list", "READ", "READ", "CURRENT_VERIFIED")
     order_pay = Operation("pos.order.pay", "ACTION", "WIZARD", "CURRENT_VERIFIED")
-    order_pos_order_invoice = Operation("pos.order.pos_order_invoice", "ACTION", "METHOD_CALL", "UNVERIFIED")
+    order_pos_order_invoice = Operation("pos.order.pos_order_invoice", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     order_refund = Operation("pos.order.refund", "ACTION", "METHOD_CALL", "UNVERIFIED")
     order_update = Operation("pos.order.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     payment_create = Operation("pos.payment.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
@@ -1048,11 +1043,11 @@ class pos:
     preset_describe = Operation("pos.preset.describe", "READ", "READ", "CURRENT_VERIFIED")
     preset_list = Operation("pos.preset.list", "READ", "READ", "CURRENT_VERIFIED")
     preset_update = Operation("pos.preset.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
-    session_create = Operation("pos.session.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    session_create = Operation("pos.session.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     session_describe = Operation("pos.session.describe", "READ", "READ", "CURRENT_VERIFIED")
     session_list = Operation("pos.session.list", "READ", "READ", "CURRENT_VERIFIED")
     session_pos_session_closing_control = Operation("pos.session.pos_session_closing_control", "ACTION", "METHOD_CALL", "UNVERIFIED")
-    session_update = Operation("pos.session.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    session_update = Operation("pos.session.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     table_create = Operation("pos.table.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     table_describe = Operation("pos.table.describe", "READ", "READ", "CURRENT_VERIFIED")
     table_list = Operation("pos.table.list", "READ", "READ", "CURRENT_VERIFIED")
@@ -1155,7 +1150,7 @@ class repair:
     order_repair_start = Operation("repair.order.repair_start", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     order_unreserve = Operation("repair.order.unreserve", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     order_update = Operation("repair.order.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
-    order_validate = Operation("repair.order.validate", "ACTION", "METHOD_CALL", "UNVERIFIED")
+    order_validate = Operation("repair.order.validate", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
     tag_create = Operation("repair.tag.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     tag_describe = Operation("repair.tag.describe", "READ", "READ", "CURRENT_VERIFIED")
     tag_list = Operation("repair.tag.list", "READ", "READ", "CURRENT_VERIFIED")
@@ -1213,7 +1208,7 @@ class sales:
     quotation_list = Operation("sales.quotation.list", "READ", "READ", "CURRENT_VERIFIED")
     quotation_template_create = Operation("sales.quotation_template.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     quotation_template_describe = Operation("sales.quotation_template.describe", "READ", "READ", "CURRENT_VERIFIED")
-    quotation_template_line_create = Operation("sales.quotation_template_line.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    quotation_template_line_create = Operation("sales.quotation_template_line.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     quotation_template_line_describe = Operation("sales.quotation_template_line.describe", "READ", "READ", "CURRENT_VERIFIED")
     quotation_template_line_list = Operation("sales.quotation_template_line.list", "READ", "READ", "CURRENT_VERIFIED")
     quotation_template_line_update = Operation("sales.quotation_template_line.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
@@ -1240,10 +1235,10 @@ class schedule:
     event_type_list = Operation("schedule.event_type.list", "READ", "READ", "CURRENT_VERIFIED")
     event_type_update = Operation("schedule.event_type.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     event_update = Operation("schedule.event.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
-    recurrence_create = Operation("schedule.recurrence.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    recurrence_create = Operation("schedule.recurrence.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     recurrence_describe = Operation("schedule.recurrence.describe", "READ", "READ", "CURRENT_VERIFIED")
     recurrence_list = Operation("schedule.recurrence.list", "READ", "READ", "CURRENT_VERIFIED")
-    recurrence_update = Operation("schedule.recurrence.update", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    recurrence_update = Operation("schedule.recurrence.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class structure:
     """structure: 40 operations."""

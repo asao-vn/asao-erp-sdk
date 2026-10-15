@@ -3,6 +3,7 @@ import os
 import sys
 import tempfile
 import unittest
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
@@ -88,6 +89,25 @@ class ClientTest(unittest.TestCase):
         with self.assertRaises(ErpError) as refused:
             Client(profile="p", binary=FAKE, allow_writes=True).request_approval("finance.payment.create", "x")
         self.assertEqual(refused.exception.code, "APPROVAL_NOT_GOVERNED")
+
+    def test_a_review_asks_odoo_cli_and_returns_its_report(self):
+        report = self.erp.review(date(2026, 4, 1), "2026-09-30", checks=["O01", "O22"],
+                                 params={"O01": {"window_days": 10}})
+        self.assertEqual(report["counts"], {"XEM_NGAY": 1})
+        self.assertEqual(report["findings"][0]["evidence"][0]["id"], 1)
+        call = self.calls()[-1]
+        self.assertEqual(call[:2], ["review", "run"])
+        for flag, value in (("--profile", "asao-hq"), ("--from", "2026-04-01"), ("--to", "2026-09-30"),
+                            ("--param", "O01.window_days=10")):
+            self.assertEqual(call[call.index(flag) + 1], value)
+        self.assertEqual([call[i + 1] for i, a in enumerate(call) if a == "--check"], ["O01", "O22"])
+        self.assertIn("--allow-unverified", call)
+
+    def test_a_governed_review_waits_for_asao_aerp_review(self):
+        governed = Client(organization="org-1", binary=FAKE)
+        with self.assertRaises(ErpError) as refused:
+            governed.review("2026-04-01", "2026-09-30")
+        self.assertEqual(refused.exception.code, "REVIEW_NOT_GOVERNED_YET")
 
     def test_flatten_turns_relations_into_names(self):
         self.assertEqual(flatten({"partner_id": [7, "Acme"], "stage": {"id": 2, "display_name": "Won"}}),

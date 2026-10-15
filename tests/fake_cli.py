@@ -25,6 +25,12 @@ with open(os.environ["FAKE_CLI_LOG"], "a", encoding="utf-8") as log:
     log.write(json.dumps(sys.argv[1:]) + "\n")
 
 args = sys.argv[1:]
+if args[:2] == ["review", "run"]:
+    reply({"from": value("--from"), "to": value("--to"), "asOf": value("--as-of", value("--to")),
+           "findings": [{"check": "O01", "severity": "XEM_NGAY", "title": "Một hoá đơn mua có thể bị nhập hai lần",
+                         "amountVnd": 34320000, "formula": "same vendor, same total, references alike",
+                         "params": {"window_days": 14}, "evidence": [{"operation": "finance.invoice.list", "id": 1}]}],
+           "counts": {"XEM_NGAY": 1}, "checks": [{"id": "O01", "ran": True}], "figures": {"revenue": 0}})
 if args[:3] == ["aerp", "approval", "request"]:
     reply({"approval": {"id": "appr-1", "status": "PENDING", "operation": value("--operation")}})
 if "--approval" in args:

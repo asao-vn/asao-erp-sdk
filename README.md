@@ -1,7 +1,8 @@
 # asao-erp
 
 Odoo Community from Python, through a verified command line. Read, group, page, print PDFs and
-browse the operation catalog, for notebooks, scripts and staff statistics.
+browse the operation catalog, for notebooks, scripts and staff statistics, and review a period's
+books for mistakes, duplicates and signs of fraud.
 
 ```python
 from asao_erp import Client, ops, to_frame
@@ -50,9 +51,28 @@ Name a binary that is not on `PATH` with `binary=` or `ASAO_ERP_CLI`.
 `ops` lists every operation by domain, so the editor completes them (`ops.finance.invoice_list`). A
 failure raises `ErpError` with the command line's code, message and remediation.
 
+## Review the books of a period
+
+`review()` runs `odoo-cli review run` (odoo-cli 0.10.0 or later) and returns the report it computes:
+bills or payments entered twice, duplicate partners, a supplier paid into an employee's account,
+orders split under an approval threshold, sales below cost, refunds after payment, expense claims
+twice or on leave, valuable scrap, overdue receivables, and the period's figures month by month.
+
+```python
+report = erp.review("2026-07-01", "2026-09-30", params={"O01": {"window_days": 10}})
+to_frame(report["findings"])   # check, severity, title, why, formula, thresholds, the records behind it
+report["checks"]               # which checks ran, and why any did not
+report["figures"]              # revenue, margin, purchases, cash in and out, by month
+```
+
+It only reads. A finding is a sign to look at again, never a verdict. The formulas live in odoo-cli,
+not in the SDK, so a script, a notebook and an agent read the same findings; `odoo-cli review checks`
+lists each check's formula and thresholds. It runs on a profile (`Client(profile=...)`); the governed
+`asao` CLI has no review yet.
+
 ## What is verified, and what is not
 
-The catalog's operations are verified on the stock Odoo Community image: 1267 on 19.0, and 1170 on
+The catalog's operations are verified on the stock Odoo Community image: 1285 on 19.0, and 1170 on
 20.0, a candidate series that runs only with `allow_unverified=True` until it is supported. A public
 [conformance run](https://github.com/asao-vn/asao-odoo-tools/blob/main/docs/conformance.md) checks them
 again every week. Before each call, the
@@ -63,6 +83,10 @@ command line checks the Odoo it reaches:
 
 A write on a customised Odoo is held back (`AERP_ENVIRONMENT_UNVERIFIED`). It runs only with
 `allow_unverified=True`.
+
+**Odoo Online and Enterprise.** The SDK reaches them through odoo-cli and the JSON-2 API (an API key
+of scope RPC; Odoo Online offers the external API on its Custom plan only). Reads run there, marked
+unverified, and `group()` works there as on Community; see [odoo-cli's page on them](https://github.com/asao-vn/asao-odoo-tools/blob/main/docs/odoo-online-and-enterprise.md).
 
 **Customised Odoo is not guaranteed.** On an Odoo changed beyond the stock image (Enterprise,
 third-party or in-house modules, Studio, automations, fields added by hand), operations cannot be
@@ -92,3 +116,9 @@ cục bộ) hoặc `asao` (theo tổ chức ASAO). SDK không giữ mật khẩu
 
 ASAO chỉ kiểm chứng trên bản Odoo chuẩn. Với Odoo đã tuỳ biến, ASAO không bảo đảm thao tác chạy đúng;
 dùng `allow_unverified=True` trên Odoo đó là tự chịu rủi ro.
+
+Từ bản 0.2.0, `review()` rà soát sổ sách một kỳ qua `odoo-cli review run` (odoo-cli 0.10.0 trở lên): hoá
+đơn hay khoản chi nhập hai lần, đối tác trùng, trả tiền nhà cung cấp vào tài khoản nhân viên, chia nhỏ đơn
+dưới ngưỡng duyệt, bán dưới giá vốn, công nợ quá hạn, và số liệu từng tháng. Mỗi phát hiện là dấu hiệu
+cần xem lại, không phải kết luận, và kèm công thức, ngưỡng cùng chứng từ. Công thức nằm trong odoo-cli,
+không nằm trong SDK.

@@ -1,0 +1,2 @@
+# The fake CLI the tests run, so the tests run from the source distribution too.
+include tests/*.py

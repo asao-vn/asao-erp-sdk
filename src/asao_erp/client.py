@@ -1,4 +1,4 @@
-"""The ASAO ERP catalog from Python: reads, groups, prints and the catalog itself, for notebooks.
+"""The ASAO ERP catalog from Python: reads, groups, prints, reviews and the catalog itself, for notebooks.
 
 Every call goes through an ASAO command line, never to Odoo directly:
 
@@ -22,6 +22,7 @@ import json
 import os
 import shutil
 import subprocess
+from datetime import date
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Sequence
 
@@ -145,6 +146,34 @@ class Client:
         path.write_bytes(pdf)
         return path
 
+    # ---- review -----------------------------------------------------------------------------
+
+    def review(self, start: str | date, end: str | date, *, as_of: str | date | None = None,
+               checks: Iterable[str] = (), params: dict[str, dict[str, float]] | None = None) -> dict:
+        """Review the books of a period (``odoo-cli review run``): mistakes, duplicates and signs of fraud.
+
+        Returns the report the command line computes; the formulas live there, not here. Its
+        ``findings`` each name their check, severity (XEM_NGAY, NEN_XU_LY, THEO_DOI), formula,
+        thresholds and the records behind them; ``checks`` says which ran and why any did not;
+        ``figures`` is the period month by month. ``params`` overrides thresholds by check:
+        ``{"O01": {"window_days": 10}}``. ``to_frame(report["findings"])`` makes a DataFrame.
+        """
+        if self.governed:
+            raise ErpError("REVIEW_NOT_GOVERNED_YET", "the governed asao CLI has no aerp review yet",
+                           remediation="Review through odoo-cli: Client(profile=...).")
+        command = self._command + ["review", "run", "--profile", self.profile,
+                                   "--from", _day(start), "--to", _day(end)]
+        if as_of is not None:
+            command += ["--as-of", _day(as_of)]
+        for check in checks:
+            command += ["--check", str(check)]
+        for check, values in (params or {}).items():
+            for name, value in values.items():
+                command += ["--param", f"{check}.{name}={value}"]
+        if self.allow_unverified:
+            command += ["--allow-unverified"]
+        return self._run(command) or {}
+
     # ---- changes ----------------------------------------------------------------------------
 
     def execute(self, operation: str, *, id: int | None = None, values: dict | None = None,
@@ -215,22 +244,32 @@ class Client:
         return self._run(command)
 
     def _run(self, command: list[str]) -> Any:
-        try:
-            done = subprocess.run(command + ["--output", "json"], capture_output=True, text=True, timeout=self.timeout)
-        except FileNotFoundError as missing:
-            raise ErpError("CLI_NOT_FOUND", f"{command[0]} is not installed or not on PATH",
-                           remediation="Install odoo-cli (profile=) or the asao CLI (organization=), or name it with binary= or ASAO_ERP_CLI.") from missing
-        try:
-            envelope = json.loads(done.stdout)
-        except ValueError:
-            raise ErpError("CLI_OUTPUT_UNREADABLE", (done.stderr or done.stdout).strip()[:500],
-                           exit_code=done.returncode) from None
-        if envelope.get("status") != "OK":
-            error = envelope.get("error") or {}
-            raise ErpError(error.get("code", "CLI_ERROR"), error.get("message", ""), category=error.get("category", ""),
-                           exit_code=error.get("exitCode", done.returncode), remediation=error.get("remediation", ""),
-                           context=error.get("context"))
-        return envelope.get("data")
+        return _run_cli(command, self.timeout)
+
+
+def _run_cli(command: list[str], timeout: float) -> Any:
+    """Runs one asao / odoo-cli command and answers its envelope's data, or raises its refusal as ErpError."""
+    try:
+        done = subprocess.run(command + ["--output", "json"], capture_output=True, text=True, timeout=timeout)
+    except FileNotFoundError as missing:
+        raise ErpError("CLI_NOT_FOUND", f"{command[0]} is not installed or not on PATH",
+                       remediation="Install odoo-cli (profile=) or the asao CLI (organization=), or name it with binary= or ASAO_ERP_CLI.") from missing
+    try:
+        envelope = json.loads(done.stdout)
+    except ValueError:
+        raise ErpError("CLI_OUTPUT_UNREADABLE", (done.stderr or done.stdout).strip()[:500],
+                       exit_code=done.returncode) from None
+    if envelope.get("status") != "OK":
+        error = envelope.get("error") or {}
+        raise ErpError(error.get("code", "CLI_ERROR"), error.get("message", ""), category=error.get("category", ""),
+                       exit_code=error.get("exitCode", done.returncode), remediation=error.get("remediation", ""),
+                       context=error.get("context"))
+    return envelope.get("data")
+
+
+def _day(value: str | date) -> str:
+    """A day as the CLI takes it, YYYY-MM-DD."""
+    return value.isoformat() if isinstance(value, date) else str(value)
 
 
 def _records(outcome: Any) -> list[dict]:

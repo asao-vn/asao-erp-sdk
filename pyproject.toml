@@ -1,22 +1,21 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "asao-erp"
-version = "0.1.0"
-description = "Odoo Community from Python, through a verified command line: reads, groups, prints."
+version = "0.2.0"
+description = "Odoo Community from Python, through a verified command line: reads, groups, PDFs and a books review."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [{name = "Nguyễn Hữu Hoàng", email = "nguyenhuuhoang711@gmail.com"}]
-keywords = ["odoo", "erp", "cli", "sdk", "pandas", "statistics"]
+keywords = ["odoo", "erp", "cli", "sdk", "pandas", "statistics", "accounting", "audit"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
