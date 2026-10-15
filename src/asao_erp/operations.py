@@ -1161,7 +1161,7 @@ class sales:
 
     invoice_create = Operation("sales.invoice.create", "ACTION", "WIZARD", "CURRENT_VERIFIED")
     loyalty_card_coupon_share = Operation("sales.loyalty_card.coupon_share", "ACTION", "METHOD_CALL", "UNVERIFIED")
-    loyalty_card_create = Operation("sales.loyalty_card.create", "COMMAND", "FIELD_WRITE", "UNVERIFIED")
+    loyalty_card_create = Operation("sales.loyalty_card.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     loyalty_card_describe = Operation("sales.loyalty_card.describe", "READ", "READ", "CURRENT_VERIFIED")
     loyalty_card_list = Operation("sales.loyalty_card.list", "READ", "READ", "CURRENT_VERIFIED")
     loyalty_card_loyalty_update_balance = Operation("sales.loyalty_card.loyalty_update_balance", "ACTION", "METHOD_CALL", "UNVERIFIED")
@@ -1241,8 +1241,10 @@ class schedule:
     recurrence_update = Operation("schedule.recurrence.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class structure:
-    """structure: 40 operations."""
+    """structure: 44 operations."""
 
+    change_note_describe = Operation("structure.change_note.describe", "READ", "READ", "CURRENT_VERIFIED")
+    change_note_list = Operation("structure.change_note.list", "READ", "READ", "CURRENT_VERIFIED")
     company_describe = Operation("structure.company.describe", "READ", "READ", "CURRENT_VERIFIED")
     company_list = Operation("structure.company.list", "READ", "READ", "CURRENT_VERIFIED")
     company_update = Operation("structure.company.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
@@ -1258,6 +1260,8 @@ class structure:
     country_state_list = Operation("structure.country_state.list", "READ", "READ", "CURRENT_VERIFIED")
     country_state_update = Operation("structure.country_state.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     country_update = Operation("structure.country.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
+    field_change_describe = Operation("structure.field_change.describe", "READ", "READ", "CURRENT_VERIFIED")
+    field_change_list = Operation("structure.field_change.list", "READ", "READ", "CURRENT_VERIFIED")
     location_list = Operation("structure.location.list", "READ", "READ", "CURRENT_VERIFIED")
     model_create = Operation("structure.model.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     model_describe = Operation("structure.model.describe", "READ", "READ", "CURRENT_VERIFIED")

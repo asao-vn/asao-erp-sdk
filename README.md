@@ -1,8 +1,9 @@
 # asao-erp
 
 Odoo Community from Python, through a verified command line. Read, group, page, print PDFs and
-browse the operation catalog, for notebooks, scripts and staff statistics, and review a period's
-books for mistakes, duplicates and signs of fraud.
+browse the operation catalog, for notebooks, scripts and staff statistics; review a period's books
+for mistakes, duplicates and signs of fraud; and run daily, weekly and monthly routines whose results
+the agent you choose (Claude Code, Codex, agy, any command) reads for you.
 
 ```python
 from asao_erp import Client, ops, to_frame
@@ -70,9 +71,77 @@ not in the SDK, so a script, a notebook and an agent read the same findings; `od
 lists each check's formula and thresholds. It runs on a profile (`Client(profile=...)`); the governed
 `asao` CLI has no review yet.
 
+## Routines: every day, week and month, read by your agent
+
+A routine asks Odoo the same questions on a schedule and keeps what Odoo answered; the agent you
+choose then reads it and writes what deserves attention. The agent only reads: anything that changes
+Odoo is a step written in the routine, never improvised.
+
+```sh
+asao-erp routines templates                    # each starter routine: what Odoo does, what it returns
+asao-erp routines init --profile my-odoo --agent claude     # writes routines.toml
+asao-erp routines run cong-no-qua-han          # run one now
+asao-erp routines install                      # a timer (systemd, launchd, Task Scheduler or cron) that runs what is due
+```
+
+The timer has been run on Linux with systemd; the launchd (macOS), Task Scheduler (Windows) and cron
+versions have not been run yet.
+
+| Every | Starter routines |
+|---|---|
+| day | sales yesterday by salesperson; overdue receivables by customer and currency; money in and out; late transfers; overdue tasks (weekdays); recurring tasks kept in Odoo (writes) |
+| week (Monday) | the books review of last week; opportunities stalled for 14 days |
+| month (the 1st) | the books review of last month; revenue by month and by customer |
+
+A routine is a few lines of TOML (or JSON), so you or your agent can write more:
+
+```toml
+profile = "my-odoo"
+output = "~/asao-routines"
+agent = "claude"          # claude | codex | gemini | agy | none | ["any", "command", "{prompt}"]
+
+[[routine]]
+id = "overdue"
+title = "Overdue receivables"
+every = "daily"           # daily | weekdays | weekly (on = "mon") | monthly (on = 1 or "last")
+at = "07:30"
+prompt = "Who owes the most past due, and whom should we call today?"
+
+  [[routine.step]]
+  group = "finance.invoice.list"
+  by = ["partner_id", "currency_id"]
+  aggregate = ["amount_residual:sum"]
+  filter = [["move_type", "=", "out_invoice"], ["state", "=", "posted"],
+            ["payment_state", "in", ["not_paid", "partial"]], ["invoice_date_due", "<", "{today}"]]
+```
+
+Steps are `read`, `group`, `review` (the books review of yesterday, last week or last month),
+`ensure_task` (an Odoo task, recurring or not, created once and never twice) and `execute`; a routine
+with a writing step must say `writes = true`. Dates are `{today}`, `{yesterday}`, `{week_start+4}`,
+`{month_start-3m}`... counted from the day the routine was due, so a run that is late still asks about
+the right day.
+
+Each run is kept in `~/asao-routines/<routine>/<day>/`: `result.json` (exactly what Odoo answered),
+`summary.md` (counts and totals, computed, never written by a model; sums in several currencies stay
+per currency), and `analysis.md` (the agent's reading). `index.md` lists the latest run of each, and
+`AGENTS.md`, `CLAUDE.md` and `GEMINI.md` there tell an agent you open in that folder how to read them,
+so "how are we doing this morning?" is answered from the files, not from guesses.
+
+The agents: `claude` (`claude -p`), `codex` (`codex exec`, read-only sandbox), `agy` (`agy -p`),
+`gemini` (Gemini CLI; Google moved individual accounts to Antigravity, so use `agy` there), or any
+command: the prompt goes on standard input, or where the command says `{prompt}`. The agent gets the
+data in its prompt and no tools. In Python, `asao_erp.routines.load("routines.toml").run("overdue")`
+does the same.
+
+**Recurring tasks in Odoo.** With odoo-cli 0.11, `work.task.create` and `work.task.update` take
+`recurring`, `repeat_every`, `repeat_unit` (day, week, month, year), `repeat_type` and `repeat_until`,
+with `due_on`, `priority`, `tags` and `description`. Odoo opens a task's next occurrence when the
+current one is closed (done or cancelled), not on a calendar date: a routine's `ensure_task` keeps
+the first one there, and closing it is the person's.
+
 ## What is verified, and what is not
 
-The catalog's operations are verified on the stock Odoo Community image: 1285 on 19.0, and 1170 on
+The catalog's operations are verified on the stock Odoo Community image: 1290 on 19.0, and 1176 on
 20.0, a candidate series that runs only with `allow_unverified=True` until it is supported. A public
 [conformance run](https://github.com/asao-vn/asao-odoo-tools/blob/main/docs/conformance.md) checks them
 again every week. Before each call, the
@@ -140,6 +209,13 @@ cục bộ) hoặc `asao` (theo tổ chức ASAO). SDK không giữ mật khẩu
 
 ASAO chỉ kiểm chứng trên bản Odoo chuẩn. Với Odoo đã tuỳ biến, ASAO không bảo đảm thao tác chạy đúng;
 dùng `allow_unverified=True` trên Odoo đó là tự chịu rủi ro.
+
+Từ bản 0.3.0, `asao-erp routines` chạy các việc định kỳ hằng ngày, hằng tuần, hằng tháng trên Odoo:
+bán hàng hôm qua, công nợ quá hạn, tiền vào ra, phiếu kho trễ, việc trễ hạn, rà soát sổ sách tuần và
+tháng, doanh thu tháng, và giữ sẵn các việc lặp lại trong Odoo (chốt quỹ, kiểm kho, khoá sổ). Mỗi lần
+chạy lưu đúng những gì Odoo trả về, một bản tóm tắt số liệu do máy tính, và phần phân tích của agent bạn
+chọn: Claude Code, Codex, agy hay lệnh nào cũng được. Agent chỉ đọc; việc nào ghi vào Odoo phải được viết
+sẵn trong file việc định kỳ. `asao-erp routines templates` cho xem từng việc: Odoo làm gì, trả về gì.
 
 Từ bản 0.2.0, `review()` rà soát sổ sách một kỳ qua `odoo-cli review run` (odoo-cli 0.10.0 trở lên): hoá
 đơn hay khoản chi nhập hai lần, đối tác trùng, trả tiền nhà cung cấp vào tài khoản nhân viên, chia nhỏ đơn

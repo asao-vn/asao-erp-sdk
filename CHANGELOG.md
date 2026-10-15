@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3.0 (2026-10-16)
+
+- Routines (`asao_erp.routines`, and the `asao-erp routines` command): daily, weekday, weekly and
+  monthly checks on Odoo, written in a TOML or JSON file, run on a schedule (`install` sets up
+  systemd, launchd, Task Scheduler or cron) or by hand, and read by the agent you choose (`claude`,
+  `codex`, `gemini`, `agy`, or any command). Each run keeps what Odoo answered, a computed summary
+  and the agent's analysis, plus an index and an AGENTS.md/CLAUDE.md/GEMINI.md for an agent opened in
+  that folder. Ten starter routines by area (`asao-erp routines templates`); writes only in steps a
+  routine declares (`writes = true`).
+- `ensure_task` keeps a task, recurring or not, open in Odoo: created once, never twice. Recurring
+  tasks need odoo-cli 0.11 (`recurring`, `repeat_every`, `repeat_unit`, `repeat_type`, `repeat_until`).
+- `pip install 'asao-erp[toml]'` reads routines files on Python 3.10.
+- The timer `install` sets up was run on Linux with systemd. The launchd (macOS), Task Scheduler
+  (Windows) and cron versions are written the same way but have not been run yet.
+- `ops` follows the catalog: 1357 operations. New: the change history,
+  `structure.field_change.list|describe` and `structure.change_note.list|describe` (odoo-cli 0.11).
+  Creating a loyalty card is now verified.
+- `Client.review()` runs the 20 checks of odoo-cli 0.11, six more than 0.10's.
+
 ## 0.2.1 (2026-10-15)
 
 Documentation and package metadata only; the code is 0.2.0's.

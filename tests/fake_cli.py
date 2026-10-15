@@ -41,6 +41,8 @@ if "catalog" in args and "describe" in args:
     operation = value("--operation")
     reply({"id": operation, "kind": "COMMAND" if operation.endswith(".create") else "READ"})
 operation = value("--operation")
+if operation == "work.task.list" and ["name", "=", "Việc mới"] in json.loads(value("--filter") or "[]"):
+    reply({"operation": operation, "data": []})
 if value("--filter") == '[["name", "=", "boom"]]':
     reply(error={"code": "AERP_VALIDATION_FAILED", "message": "boom is refused", "exitCode": 2,
                  "remediation": "Do not say boom."}, code=2)
