@@ -106,10 +106,13 @@ welcome. An accepted change is applied in the monorepo and arrives with the next
 
 ## Support the project
 
-asao-erp is free and built by one person. If it saves you time and you would like to chip in, PayPal
-takes any amount: [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345).
+asao-erp is free and built by one person. If it saves you time and you would like to chip in, any
+amount helps:
 
-<img src="docs/support/paypal-qr.svg" alt="PayPal QR code for paypal.me/AldenNguyen2345" width="160" height="160">
+| PayPal | Vietcombank (VietQR, any Vietnamese banking app) |
+|:---:|:---:|
+| <img src="docs/support/paypal-qr.svg" alt="PayPal QR code for paypal.me/AldenNguyen2345" width="160" height="160"> | <img src="docs/support/vcb-qr.svg" alt="VietQR code for Vietcombank account 1031712729" width="160" height="160"> |
+| [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345) | NGUYEN HUU HOANG · 1031712729 |
 
 A star, an issue or a note about what you use it for helps just as much. Support buys no priority and
 no warranty; the license and its terms stay the same.
@@ -149,6 +152,7 @@ vụ ASAO (app.asao.vn) có [Điều khoản sử dụng](https://app.asao.vn/te
 chỉ áp dụng khi bạn dùng dịch vụ đó.
 
 **Ủng hộ dự án.** asao-erp miễn phí và do một người làm. Nếu nó giúp bạn tiết kiệm thời gian và bạn muốn
-ủng hộ một chút, gửi qua PayPal: [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345) (mã QR ở
-mục [Support the project](#support-the-project)). Một sao trên GitHub, một issue hay một lời kể bạn dùng nó
+ủng hộ một chút: chuyển khoản Vietcombank **1031712729** (NGUYEN HUU HOANG), quét VietQR bằng app ngân hàng
+nào cũng được, hoặc PayPal [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345). Mã QR ở mục
+[Support the project](#support-the-project). Một sao trên GitHub, một issue hay một lời kể bạn dùng nó
 vào việc gì cũng quý như vậy.
