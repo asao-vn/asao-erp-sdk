@@ -28,7 +28,7 @@ the command line too, either of:
 - [`odoo-cli`](https://github.com/asao-vn/asao-odoo-tools), for an Odoo you configure locally:
   `Client(profile="my-odoo")`. Set the profile up once with `odoo-cli profile set`; the credential
   stays in the environment or the OS keyring, never in your notebook.
-- The governed [`asao`](https://github.com/asao-vn/asao-cli) CLI, for an ASAO organization:
+- The governed `asao` CLI, for an ASAO organization:
   `Client(organization="...", connection="...")`. Calls then act with the caller's ASAO login, within
   the permissions their role grants: reads, and, with a domain's write key, the verified writes.
   A high-risk one (posting, payments, rates) runs only after a colleague approves the exact request
