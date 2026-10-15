@@ -104,9 +104,18 @@ python -m unittest discover -s tests     # a fake command line, no network
 This repository is exported from the ASAO monorepo (see `SOURCE.md`). Issues and pull requests are
 welcome. An accepted change is applied in the monorepo and arrives with the next export.
 
-## License
+## License, owner, privacy and terms
 
-Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+- **License:** Apache License 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE). The software is
+  provided "as is", without warranty (sections 7 and 8 of the license).
+- **Owner:** Copyright 2026 Nguyễn Hữu Hoàng, who publishes it under the brand ASAO.
+  Contact: nguyenhuuhoang711@gmail.com.
+- **Privacy:** asao-erp collects nothing and opens no connection of its own. It runs `odoo-cli` (or
+  `asao`) on your machine and returns what that command answers, so it holds no credential and has
+  no telemetry.
+- **Terms:** using this library on its own is governed by its license only. ASAO's hosted service
+  (app.asao.vn) has its own [Terms of Service](https://app.asao.vn/terms) and [Privacy Policy](https://app.asao.vn/privacy), which apply
+  when you use that service, including through `Client(organization=...)`.
 
 ## Tiếng Việt
 
@@ -122,3 +131,9 @@ Từ bản 0.2.0, `review()` rà soát sổ sách một kỳ qua `odoo-cli revie
 dưới ngưỡng duyệt, bán dưới giá vốn, công nợ quá hạn, và số liệu từng tháng. Mỗi phát hiện là dấu hiệu
 cần xem lại, không phải kết luận, và kèm công thức, ngưỡng cùng chứng từ. Công thức nằm trong odoo-cli,
 không nằm trong SDK.
+
+**Giấy phép, chủ sở hữu, quyền riêng tư.** asao-erp phát hành theo giấy phép Apache 2.0, thuộc sở hữu của
+cá nhân Nguyễn Hữu Hoàng (thương hiệu ASAO), và được cung cấp "nguyên trạng", không kèm bảo đảm. Thư viện
+không thu thập dữ liệu gì và không tự mở kết nối nào: nó chỉ chạy `odoo-cli` hoặc `asao` trên máy bạn. Dịch
+vụ ASAO (app.asao.vn) có [Điều khoản sử dụng](https://app.asao.vn/terms) và [Chính sách quyền riêng tư](https://app.asao.vn/privacy) riêng; chúng
+chỉ áp dụng khi bạn dùng dịch vụ đó.
