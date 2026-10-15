@@ -28,6 +28,7 @@ Homepage = "https://github.com/asao-vn/asao-erp-sdk"
 Repository = "https://github.com/asao-vn/asao-erp-sdk"
 Issues = "https://github.com/asao-vn/asao-erp-sdk/issues"
 "Command line" = "https://github.com/asao-vn/asao-odoo-tools"
+Funding = "https://paypal.me/AldenNguyen2345"
 
 [project.optional-dependencies]
 pandas = ["pandas>=2"]

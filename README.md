@@ -104,6 +104,16 @@ python -m unittest discover -s tests     # a fake command line, no network
 This repository is exported from the ASAO monorepo (see `SOURCE.md`). Issues and pull requests are
 welcome. An accepted change is applied in the monorepo and arrives with the next export.
 
+## Support the project
+
+asao-erp is free and built by one person. If it saves you time and you would like to chip in, PayPal
+takes any amount: [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345).
+
+<img src="docs/support/paypal-qr.svg" alt="PayPal QR code for paypal.me/AldenNguyen2345" width="160" height="160">
+
+A star, an issue or a note about what you use it for helps just as much. Support buys no priority and
+no warranty; the license and its terms stay the same.
+
 ## License, owner, privacy and terms
 
 - **License:** Apache License 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE). The software is
@@ -137,3 +147,8 @@ cá nhân Nguyễn Hữu Hoàng (thương hiệu ASAO), và được cung cấp 
 không thu thập dữ liệu gì và không tự mở kết nối nào: nó chỉ chạy `odoo-cli` hoặc `asao` trên máy bạn. Dịch
 vụ ASAO (app.asao.vn) có [Điều khoản sử dụng](https://app.asao.vn/terms) và [Chính sách quyền riêng tư](https://app.asao.vn/privacy) riêng; chúng
 chỉ áp dụng khi bạn dùng dịch vụ đó.
+
+**Ủng hộ dự án.** asao-erp miễn phí và do một người làm. Nếu nó giúp bạn tiết kiệm thời gian và bạn muốn
+ủng hộ một chút, gửi qua PayPal: [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345) (mã QR ở
+mục [Support the project](#support-the-project)). Một sao trên GitHub, một issue hay một lời kể bạn dùng nó
+vào việc gì cũng quý như vậy.
