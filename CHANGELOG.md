@@ -11,7 +11,8 @@
   routine declares (`writes = true`).
 - `ensure_task` keeps a task, recurring or not, open in Odoo: created once, never twice. Recurring
   tasks need odoo-cli 0.11 (`recurring`, `repeat_every`, `repeat_unit`, `repeat_type`, `repeat_until`).
-- `pip install 'asao-erp[toml]'` reads routines files on Python 3.10.
+- Python 3.10 reads routines files through `tomli`, which the package now installs there (3.11 and
+  later have `tomllib`). The `[toml]` extra stays, so an install line that names it still works.
 - The timer `install` sets up was run on Linux with systemd. The launchd (macOS), Task Scheduler
   (Windows) and cron versions are written the same way but have not been run yet.
 - `ops` follows the catalog: 1357 operations. New: the change history,

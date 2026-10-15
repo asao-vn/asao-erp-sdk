@@ -8,7 +8,7 @@ version = "0.3.0"
 description = "Odoo Community from Python, through a verified command line: reads, groups, PDFs, a books review and daily/weekly/monthly routines your agent reads."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["tomli>=2; python_version < '3.11'"]
 license = "Apache-2.0"
 authors = [{name = "Nguyễn Hữu Hoàng", email = "nguyenhuuhoang711@gmail.com"}]
 keywords = ["odoo", "erp", "cli", "sdk", "pandas", "statistics", "accounting", "audit"]
@@ -35,6 +35,7 @@ asao-erp = "asao_erp.__main__:main"
 
 [project.optional-dependencies]
 pandas = ["pandas>=2"]
+# Kept so an install line that names it still works: tomli is a dependency on Python 3.10.
 toml = ["tomli>=2; python_version < '3.11'"]
 
 [tool.setuptools.packages.find]
