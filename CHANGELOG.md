@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1 (2026-10-15)
+
+Documentation and package metadata only; the code is 0.2.0's.
+
+- The README names the owner, says what the library collects (nothing: it only runs the CLI) and
+  links the hosted service's Terms of Service and Privacy Policy.
+- How to support the project: Ko-fi (cards or PayPal), PayPal, and Vietcombank by VietQR. The
+  package's Funding URL is Ko-fi.
+
 ## 0.2.0 (2026-10-15)
 
 - `Client.review(start, end, as_of=..., checks=..., params=...)` reviews the books of a period through

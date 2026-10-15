@@ -113,7 +113,7 @@ amount helps:
 
 | PayPal | Vietcombank (VietQR, any Vietnamese banking app) |
 |:---:|:---:|
-| <img src="docs/support/paypal-qr.svg" alt="PayPal QR code for paypal.me/AldenNguyen2345" width="160" height="160"> | <img src="docs/support/vcb-qr.svg" alt="VietQR code for Vietcombank account 1031712729" width="160" height="160"> |
+| <img src="https://raw.githubusercontent.com/asao-vn/asao-erp-sdk/main/docs/support/paypal-qr.png" alt="PayPal QR code for paypal.me/AldenNguyen2345" width="160" height="160"> | <img src="https://raw.githubusercontent.com/asao-vn/asao-erp-sdk/main/docs/support/vcb-qr.png" alt="VietQR code for Vietcombank account 1031712729" width="160" height="160"> |
 | [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345) | NGUYEN HUU HOANG · 1031712729 |
 
 A star, an issue or a note about what you use it for helps just as much. Support buys no priority and

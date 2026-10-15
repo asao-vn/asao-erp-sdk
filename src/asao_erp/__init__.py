@@ -11,4 +11,4 @@ from . import operations as ops
 from .client import READ_KINDS, Client, ErpError, flatten, to_frame
 
 __all__ = ["Client", "ErpError", "READ_KINDS", "flatten", "ops", "to_frame"]
-__version__ = "0.2.0"
+__version__ = "0.2.1"

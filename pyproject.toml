@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "asao-erp"
-version = "0.2.0"
+version = "0.2.1"
 description = "Odoo Community from Python, through a verified command line: reads, groups, PDFs and a books review."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -28,7 +28,7 @@ Homepage = "https://github.com/asao-vn/asao-erp-sdk"
 Repository = "https://github.com/asao-vn/asao-erp-sdk"
 Issues = "https://github.com/asao-vn/asao-erp-sdk/issues"
 "Command line" = "https://github.com/asao-vn/asao-odoo-tools"
-Funding = "https://paypal.me/AldenNguyen2345"
+Funding = "https://ko-fi.com/nguyenhuuhoang"
 
 [project.optional-dependencies]
 pandas = ["pandas>=2"]
