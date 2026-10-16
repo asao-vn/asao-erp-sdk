@@ -15,4 +15,4 @@ from . import routines
 from .client import READ_KINDS, Client, ErpError, flatten, to_frame
 
 __all__ = ["Client", "ErpError", "READ_KINDS", "flatten", "ops", "routines", "to_frame"]
-__version__ = "0.3.0"
+__version__ = "0.3.1"

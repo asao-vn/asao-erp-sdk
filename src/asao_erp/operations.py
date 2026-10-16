@@ -1241,8 +1241,17 @@ class schedule:
     recurrence_update = Operation("schedule.recurrence.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
 
 class structure:
-    """structure: 44 operations."""
+    """structure: 55 operations."""
 
+    activity_type_list = Operation("structure.activity_type.list", "READ", "READ", "CURRENT_VERIFIED")
+    alert_action_create = Operation("structure.alert_action.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
+    alert_action_describe = Operation("structure.alert_action.describe", "READ", "READ", "CURRENT_VERIFIED")
+    alert_action_list = Operation("structure.alert_action.list", "READ", "READ", "CURRENT_VERIFIED")
+    alert_action_update = Operation("structure.alert_action.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
+    alert_rule_create = Operation("structure.alert_rule.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
+    alert_rule_describe = Operation("structure.alert_rule.describe", "READ", "READ", "CURRENT_VERIFIED")
+    alert_rule_list = Operation("structure.alert_rule.list", "READ", "READ", "CURRENT_VERIFIED")
+    alert_rule_update = Operation("structure.alert_rule.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     change_note_describe = Operation("structure.change_note.describe", "READ", "READ", "CURRENT_VERIFIED")
     change_note_list = Operation("structure.change_note.list", "READ", "READ", "CURRENT_VERIFIED")
     company_describe = Operation("structure.company.describe", "READ", "READ", "CURRENT_VERIFIED")
@@ -1276,8 +1285,10 @@ class structure:
     record_list = Operation("structure.record.list", "READ", "READ", "CURRENT_VERIFIED")
     record_update = Operation("structure.record.update", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     record_validate = Operation("structure.record.validate", "ACTION", "METHOD_CALL", "CURRENT_VERIFIED")
+    registry_field_list = Operation("structure.registry_field.list", "READ", "READ", "CURRENT_VERIFIED")
+    registry_model_list = Operation("structure.registry_model.list", "READ", "READ", "CURRENT_VERIFIED")
     settings_describe = Operation("structure.settings.describe", "READ", "READ", "CURRENT_VERIFIED")
-    settings_update = Operation("structure.settings.update", "ACTION", "WIZARD", "UNVERIFIED")
+    settings_update = Operation("structure.settings.update", "ACTION", "WIZARD", "CURRENT_VERIFIED")
     system_parameter_create = Operation("structure.system_parameter.create", "COMMAND", "FIELD_WRITE", "CURRENT_VERIFIED")
     system_parameter_describe = Operation("structure.system_parameter.describe", "READ", "READ", "CURRENT_VERIFIED")
     system_parameter_list = Operation("structure.system_parameter.list", "READ", "READ", "CURRENT_VERIFIED")

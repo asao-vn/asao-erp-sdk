@@ -26,22 +26,26 @@ class ClientTest(unittest.TestCase):
     def calls(self):
         return [json.loads(line) for line in Path(self.log.name).read_text().splitlines()]
 
+    def executions(self):
+        """The calls that run an operation; a client also describes an operation once before reading it."""
+        return [call for call in self.calls() if "execute" in call]
+
     def test_a_read_names_its_operation_profile_and_page(self):
         rows = self.erp.read(ops.sales.quotation_list, [["state", "=", "sale"]], limit=5, offset=10, order="id")
         self.assertEqual([r["id"] for r in rows], [11, 12, 13, 14, 15])
-        self.assertEqual(self.calls()[0], ["execute", "--operation", "sales.quotation.list", "--limit", "5", "--offset", "10",
+        self.assertEqual(self.executions()[0], ["execute", "--operation", "sales.quotation.list", "--limit", "5", "--offset", "10",
                                            "--order", "id", "--filter", '[["state", "=", "sale"]]', "--profile", "asao-hq",
                                            "--allow-unverified", "--output", "json"])
 
     def test_iterate_pages_until_a_short_page(self):
         rows = list(self.erp.iterate("sales.quotation.list", page=200))
         self.assertEqual(len(rows), 450)
-        self.assertEqual([c[c.index("--offset") + 1] if "--offset" in c else "0" for c in self.calls()], ["0", "200", "400"])
+        self.assertEqual([c[c.index("--offset") + 1] if "--offset" in c else "0" for c in self.executions()], ["0", "200", "400"])
 
     def test_groups_come_from_the_provider(self):
         groups = self.erp.group("sales.quotation.list", by=["date_order:month"], aggregate=["amount_total:sum"])
         self.assertEqual(groups[0]["count"], 3)
-        self.assertIn("--group-by", self.calls()[0])
+        self.assertIn("--group-by", self.executions()[0])
         self.assertEqual(flatten(groups[0])["date_order:month"], "2026-10-01")
 
     def test_a_print_returns_or_saves_the_pdf(self):
@@ -58,6 +62,20 @@ class ClientTest(unittest.TestCase):
         writer = Client(profile="asao-hq", binary=FAKE, allow_writes=True)
         self.assertEqual(writer.execute("identity.contact.create", values={"name": "x"}), {"id": 9, "created": True})
 
+    def test_a_write_named_where_a_read_is_expected_never_runs(self):
+        # read(), iterate(), group() and print() run read operations only, on any client: before
+        # 16/10/2026 a read of a write operation ran it, even without allow_writes.
+        writer = Client(profile="asao-hq", binary=FAKE, allow_writes=True)
+        for erp in (self.erp, writer):
+            for attempt in (lambda: erp.read("sales.order.confirm", id=42),
+                            lambda: list(erp.iterate("finance.invoice.post")),
+                            lambda: erp.group("sales.order.confirm"),
+                            lambda: erp.print("sales.order.confirm", 42)):
+                with self.assertRaises(ErpError) as refused:
+                    attempt()
+                self.assertEqual(refused.exception.code, "NOT_A_READ")
+        self.assertEqual(self.executions(), [])
+
     def test_a_refusal_is_an_error_with_the_clis_fields(self):
         with self.assertRaises(ErpError) as refused:
             self.erp.read("sales.quotation.list", [["name", "=", "boom"]])
@@ -67,7 +85,7 @@ class ClientTest(unittest.TestCase):
     def test_a_governed_client_acts_as_the_asao_login(self):
         governed = Client(organization="org-1", connection="conn-1", binary=FAKE)
         governed.read("sales.quotation.list", limit=1)
-        call = self.calls()[0]
+        call = self.executions()[0]
         self.assertEqual(call[:2], ["aerp", "execute"])
         self.assertIn("--organization", call)
         self.assertNotIn("--profile", call)

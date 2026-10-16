@@ -39,7 +39,9 @@ if "catalog" in args and "list" in args:
     reply({"items": [{"id": "sales.quotation.list", "kind": "READ"}], "count": 1})
 if "catalog" in args and "describe" in args:
     operation = value("--operation")
-    reply({"id": operation, "kind": "COMMAND" if operation.endswith(".create") else "READ"})
+    kind = ("COMMAND" if operation.endswith((".create", ".update", ".delete")) else
+            "ACTION" if operation.endswith((".confirm", ".post", ".validate", ".cancel")) else "READ")
+    reply({"id": operation, "kind": kind})
 operation = value("--operation")
 if operation == "work.task.list" and ["name", "=", "Việc mới"] in json.loads(value("--filter") or "[]"):
     reply({"operation": operation, "data": []})

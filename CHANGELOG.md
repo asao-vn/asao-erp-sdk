@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.1 (2026-10-16)
+
+- **Fixed: a write named where a read is expected never runs.** `read()`, `iterate()`, `group()` and
+  `print()` gave any operation to odoo-cli. A write operation named there ran, even on a client made
+  without `allow_writes`: `read("sales.order.confirm", id=42)` confirmed order 42. A routine's read
+  step could do the same without `writes = true`.
+  - They now run read operations only, and refuse anything else with `NOT_A_READ` before anything
+    runs, whatever the client may do. Writes go through `execute()`, on a client made with
+    `allow_writes=True`.
+  - The first read of an operation asks the catalog what it is, once per client.
+  - odoo-cli 0.13.1 refuses read flags (`--limit`, `--filter`, ...) on a write too, which also
+    protects 0.3.0.
+- `ops` follows the catalog of odoo-cli 0.12: 1368 operations, with the alert rules and their actions
+  (`structure.alert_rule.*`, `structure.alert_action.*`) and the reads that resolve them.
+
 ## 0.3.0 (2026-10-16)
 
 - Routines (`asao_erp.routines`, and the `asao-erp routines` command): daily, weekday, weekly and

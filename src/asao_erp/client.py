@@ -93,6 +93,7 @@ class Client:
     def read(self, operation: str, filter: Domain | None = None, *, limit: int = 80, offset: int = 0,
              order: str | None = None, id: int | None = None) -> list[dict]:
         """Records of a read operation: a filtered page of a list, or the one record a describe names."""
+        self._require_read(operation, "read")
         args = ["--limit", str(limit)]
         if offset:
             args += ["--offset", str(offset)]
@@ -120,6 +121,7 @@ class Client:
         """Groups Odoo aggregates: ``by`` fields or date buckets (``"date_order:month"``),
         ``aggregate`` as ``"field:sum"``; every group carries ``count``. Without ``by``, one group
         totals every record the filter matches."""
+        self._require_read(operation, "group")
         args: list[str] = []
         for field in by:
             args += ["--group-by", field]
@@ -137,6 +139,7 @@ class Client:
 
     def print(self, operation: str, id: int, to: str | os.PathLike | None = None) -> bytes | Path:
         """A record's PDF report (``finance.invoice.print``): the bytes, or the path it was saved to."""
+        self._require_read(operation, "print")
         outcome = self._execute(operation, ["--provider-target-id", str(id)])
         document = (outcome or {}).get("data") or {}
         pdf = base64.b64decode(document.get("content", ""))
@@ -221,6 +224,14 @@ class Client:
         return (self._run(command) or {}).get("approval", {})
 
     # ---- the command line -------------------------------------------------------------------
+
+    def _require_read(self, operation: str, verb: str) -> None:
+        """read(), iterate(), group() and print() run read operations only: a write named there by
+        mistake is refused before anything runs, whatever the client may do (found 16/10/2026: a read
+        of a write operation ran it, even on a client made without allow_writes)."""
+        if self._kind(operation) not in READ_KINDS:
+            raise ErpError("NOT_A_READ", f"{operation} changes data, and {verb}() runs read operations only",
+                           remediation="Run it with execute() on a client made with allow_writes=True.")
 
     def _kind(self, operation: str) -> str:
         if operation not in self._kinds:
