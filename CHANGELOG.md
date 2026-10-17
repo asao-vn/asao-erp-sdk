@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 (unreleased: it needs odoo-cli 0.17)
+## 0.4.0 (2026-10-17, with odoo-cli 0.17)
 
 - **New: `resolve()`.** It answers the ids of what a list operation finds, and nothing else of them.
   Filters are on plain fields only.
