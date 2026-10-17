@@ -31,6 +31,19 @@ if args[:2] == ["review", "run"]:
                          "amountVnd": 34320000, "formula": "same vendor, same total, references alike",
                          "params": {"window_days": 14}, "evidence": [{"operation": "finance.invoice.list", "id": 1}]}],
            "counts": {"XEM_NGAY": 1}, "checks": [{"id": "O01", "ran": True}], "figures": {"revenue": 0}})
+if args[:1] == ["resolve"]:
+    reply({"operation": value("--operation"), "ids": [16], "count": 1, "more": False})
+if args[:2] == ["review", "test-check"]:
+    reply({"check": "X-1", "version": 1, "passed": True, "cases": []})
+if args[:2] == ["review", "add-check"]:
+    reply({"profile": value("--profile"), "check": "X-1", "added": True})
+if args[:2] == ["review", "verdict"]:
+    reply({"profile": value("--profile"), "verdict": {"key": value("--finding"), "verdict": "real" if "--real" in args else "false"}})
+if args[:2] == ["review", "precision"]:
+    reply({"profile": value("--profile"), "checks": [{"check": "O23", "real": 3, "falseAlarms": 1, "precision": 0.75}]})
+if "--accept" in args:
+    reply({"operation": value("--operation"), "status": "SUCCESS", "data": {"id": 42},
+           "acceptance": {"level": "INTENT_VERIFIED", "why": "1 review finding(s) name this record: O02"}})
 if args[:3] == ["aerp", "approval", "request"]:
     reply({"approval": {"id": "appr-1", "status": "PENDING", "operation": value("--operation")}})
 if "--approval" in args:

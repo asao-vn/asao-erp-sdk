@@ -127,6 +127,25 @@ class ClientTest(unittest.TestCase):
             governed.review("2026-04-01", "2026-09-30")
         self.assertEqual(refused.exception.code, "REVIEW_NOT_GOVERNED_YET")
 
+    def test_resolve_answers_ids_only(self):
+        ids = self.erp.resolve(ops.identity.contact_list, name="Lê Thành", order="id desc", limit=1)
+        self.assertEqual(ids, [16])
+        self.assertEqual(self.calls()[-1][:9], ["resolve", "--profile", "asao-hq", "--operation", "identity.contact.list",
+                                                "--limit", "1", "--name", "Lê Thành"])
+
+    def test_a_write_can_be_judged_at_three_levels(self):
+        erp = Client(profile="asao-hq", binary=FAKE, allow_writes=True)
+        outcome = erp.execute("finance.invoice.post", id=42, accept=True)
+        self.assertEqual(outcome["acceptance"]["level"], "INTENT_VERIFIED")
+        self.assertIn("--accept", self.calls()[-1])
+
+    def test_check_files_verdicts_and_precision(self):
+        self.assertTrue(self.erp.test_check("X-1.json")["passed"])
+        self.assertTrue(self.erp.add_check("X-1.json")["added"])
+        self.assertEqual(self.erp.verdict("O23-1a2b3c4d5e6f", real=False, note="team lunch")["verdict"]["verdict"], "false")
+        self.assertIn("--false-alarm", self.calls()[-1])
+        self.assertEqual(self.erp.precision()[0]["precision"], 0.75)
+
     def test_flatten_turns_relations_into_names(self):
         self.assertEqual(flatten({"partner_id": [7, "Acme"], "stage": {"id": 2, "display_name": "Won"}}),
                          {"partner_id": "Acme", "stage": "Won"})

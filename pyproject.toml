@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "asao-erp"
-version = "0.3.1"
+version = "0.4.0"
 description = "Odoo Community from Python, through a verified command line: reads, groups, PDFs, a books review and daily/weekly/monthly routines your agent reads."
 readme = "README.md"
 requires-python = ">=3.10"

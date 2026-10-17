@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0 (unreleased: it needs odoo-cli 0.17)
+
+- **New: `resolve()`.** It answers the ids of what a list operation finds, and nothing else of them.
+  Filters are on plain fields only.
+- **New: `execute(..., accept=True)`.** It judges a write at three levels and returns the whole outcome:
+  - `acceptance["level"]` is ODOO_VALID, INTENT_VERIFIED or RESULT_ACCEPTED;
+  - `acceptance["why"]` says why it stopped below RESULT_ACCEPTED.
+- **New: review checks as files, verdicts and precision:**
+  - `test_check(path)` and `add_check(path)` check and add an `odoo-cli.check/v1` file;
+  - `verdict(key, real=..., note=...)` keeps a judgement on a finding;
+  - `precision()` gives each check's share of real findings.
+
 ## 0.3.1 (2026-10-16)
 
 - **Fixed: a write named where a read is expected never runs.** `read()`, `iterate()`, `group()` and

@@ -180,8 +180,13 @@ class Client:
     # ---- changes ----------------------------------------------------------------------------
 
     def execute(self, operation: str, *, id: int | None = None, values: dict | None = None,
-                approval: str | None = None) -> Any:
+                approval: str | None = None, accept: bool = False) -> Any:
         """Run any operation. One that changes data runs only on a client made with allow_writes=True.
+
+        ``accept=True`` (odoo-cli 0.17) judges the write and returns the whole outcome, whose
+        ``acceptance["level"]`` is ODOO_VALID (Odoo ran it as Odoo does), INTENT_VERIFIED (every value
+        asked for is what Odoo holds) or RESULT_ACCEPTED (no review check finds a problem with the record),
+        with ``acceptance["why"]`` when it stopped below RESULT_ACCEPTED.
 
         On the governed asao CLI, a high-risk operation (posting, payments, rates) runs only with
         ``approval=``: the id of a request a colleague approved (see ``request_approval``). The
@@ -202,7 +207,59 @@ class Client:
             args += ["--provider-target-id", str(id)]
         if values:
             args += ["--values", json.dumps(values)]
+        if accept:
+            if self.governed:
+                raise ErpError("ACCEPT_NOT_GOVERNED_YET", "accept= runs on odoo-cli (profile=) only")
+            return self._execute(operation, args + ["--accept"]) or {}
         return (self._execute(operation, args) or {}).get("data")
+
+    def resolve(self, operation: str, *, name: str | None = None, filter: Domain | None = None,
+                order: str | None = None, limit: int = 20) -> list[int]:
+        """The ids of the records a list operation finds, and nothing else of them (odoo-cli resolve).
+
+        The filter may name plain fields only (names, references, states, dates, amounts, relations):
+        one on a phone, an e-mail, a note or a file is refused. ``limit`` is at most 20.
+        """
+        if self.governed:
+            raise ErpError("RESOLVE_NOT_GOVERNED_YET", "resolve runs on odoo-cli (profile=) only")
+        command = self._command + ["resolve", "--profile", self.profile, "--operation", str(operation),
+                                   "--limit", str(limit)]
+        if name:
+            command += ["--name", name]
+        if filter:
+            command += ["--filter", json.dumps(filter)]
+        if order:
+            command += ["--order", order]
+        return list((self._run(command) or {}).get("ids") or [])
+
+    # ---- review checks as files and verdicts (odoo-cli 0.17, DEC-2026-0181) -------------------
+
+    def test_check(self, path: str | os.PathLike) -> dict:
+        """Check a declared check file (odoo-cli.check/v1) and run its own cases, with no Odoo."""
+        return self._run(self._command + ["review", "test-check", "--file", str(path)]) or {}
+
+    def add_check(self, path: str | os.PathLike) -> dict:
+        """Add a declared check to this profile's review, once its own cases pass."""
+        self._require_profile("add_check")
+        return self._run(self._command + ["review", "add-check", "--profile", self.profile, "--file", str(path)]) or {}
+
+    def verdict(self, finding: str, *, real: bool, note: str = "") -> dict:
+        """Say whether a finding (by its ``key``) was a real problem or a false alarm; kept per profile."""
+        self._require_profile("verdict")
+        command = self._command + ["review", "verdict", "--profile", self.profile, "--finding", finding,
+                                   "--real" if real else "--false-alarm"]
+        if note:
+            command += ["--note", note]
+        return self._run(command) or {}
+
+    def precision(self) -> list[dict]:
+        """Each check's share of real findings, from the verdicts given on this profile."""
+        self._require_profile("precision")
+        return list((self._run(self._command + ["review", "precision", "--profile", self.profile]) or {}).get("checks") or [])
+
+    def _require_profile(self, verb: str) -> None:
+        if self.governed:
+            raise ErpError("PROFILE_ONLY", f"{verb}() runs on odoo-cli (profile=) only")
 
     def request_approval(self, operation: str, reason: str, *, id: int | None = None,
                          values: dict | None = None) -> dict:

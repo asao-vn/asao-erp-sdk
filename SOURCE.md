@@ -1,6 +1,6 @@
 # Source
 
-Exported from the ASAO monorepo commit `7e65f80cd5d86fbc386e8453ca44f06a32c4368c` by `scripts/release/public/export-public-repo.py asao-erp-sdk`.
+Exported from the ASAO monorepo commit `07ddb3ac0f4bafb1470df113cb2b15cb6ff7dfc1` by `scripts/release/public/export-public-repo.py asao-erp-sdk`.
 
 - Root: monorepo `packages/sdk-python`
 - Left out: `src/asao_erp/teaching.py`, `tests/test_teaching.py`, `tests/fake_alop.py`
